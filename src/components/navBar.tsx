@@ -1,5 +1,5 @@
 import React from 'react'
-import { Navbar, Container, Nav,  } from 'react-bootstrap';
+import { Navbar, Container, Nav,NavDropdown  } from 'react-bootstrap';
 
 import { Link  } from 'react-router-dom';
 
@@ -14,6 +14,12 @@ export const NavBar = () => {
                 <Nav.Link as={Link} to={"./billing"}>Facturas</Nav.Link>
                 <Nav.Link as={Link} to={"./client"}>Clientes</Nav.Link>
                 </Nav>
+                <NavDropdown title="Angel Chavez" id="navbarScrollingDropdown">
+                    <NavDropdown.Item href="#action3">Mi cuenta</NavDropdown.Item>
+                    <NavDropdown.Divider />
+                    <NavDropdown.Item href="#action5">Cerrar sesion</NavDropdown.Item>
+                </NavDropdown>
+                
                 </Container>
             </Navbar>
         </>
