@@ -1,0 +1,43 @@
+.auth__container{
+    height: 432px;
+    width: 464px;
+    border: 1px solid $primary;
+    border-radius: 12px;
+    margin: auto;
+    
+    padding: 30px;
+}
+.auth__title-container{
+    font-size: 25px;
+    font-weight: 400;
+    margin-top: 60px;
+    width: 90%;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+
+}
+.auth__form-conatiner{
+    margin-top: 50px;
+
+}
+
+.auth__btn-container{
+    margin:auto;
+    width: 188px;
+    margin-top: 50px;
+    
+}
+
+.auth__row{
+    height: 90vh;
+}
+
+.auth__btn{
+    width: 188px;
+    background-color: $primary;
+    color: white;
+    font-size: 25px;
+    border-radius: 12px;
+    text-align: center;
+}
