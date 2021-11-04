@@ -1,12 +1,18 @@
-# pull official base image
 FROM node:14.15.4
-FROM node:14-alpine AS builder
-WORKDIR /app
-COPY package.json ./
-COPY yarn.lock ./
-RUN yarn install --frozen-lockfile
-COPY . .
-RUN yarn build
 
-FROM nginx:1.19-alpine AS server
-COPY --from=builder ./app/build /usr/share/nginx/html
+# set working directory
+WORKDIR /app
+
+# add `/app/node_modules/.bin` to $PATH
+ENV PATH /app/node_modules/.bin:$PATH
+
+# install app dependencies
+COPY package.json ./
+COPY package-lock.json ./
+RUN npm i
+
+# add app
+COPY . ./
+
+# start app
+CMD ["npm", "start"]
