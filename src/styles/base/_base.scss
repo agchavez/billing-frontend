@@ -12,6 +12,11 @@
     font-weight: 300;
 }
 
+body{
+    font-family: 'Roboto', sans-serif;
+    background-color: #fcfafa62;
+}
+
 .base_btn-table{
     width: 97px;
     height: 26px;
@@ -20,6 +25,9 @@
     padding: 0px;
     border-radius: 12px;
 
+}
+.btn{
+    background-color: 1864BD !important;
 }
 
 .text-muted{
