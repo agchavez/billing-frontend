@@ -1,7 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Table, Button } from 'react-bootstrap';
+import { AddNewProduct } from '../components/newProduct';
 
 export const ProductPage = () => {
+    const [ModalShow, setModalShow] = useState(false);
+    const handleAddClient = ()=>{
+            setModalShow(true);
+    }
     return (
         <div className="row mt-5">
             <div className="col-9 base__title">
@@ -9,7 +14,7 @@ export const ProductPage = () => {
                 <p>Lista de productos</p>
             </div>
             <div className="mt-3 col-3">
-                <Button className="w-100" variant="outline-primary">Agregar producto</Button>
+                <Button className="w-100" variant="outline-primary" onClick={handleAddClient}>Agregar producto</Button>
             </div>
             <div className="billing__container-table mt-3">
             <Table striped bordered hover>
@@ -45,6 +50,10 @@ export const ProductPage = () => {
                     </tbody>
                     </Table>
             </div>
+            <AddNewProduct 
+                    show={ModalShow}
+                    onHide={() => setModalShow(false)}
+                    />
             
 
         </div>

@@ -21,3 +21,12 @@
     border-radius: 12px;
 
 }
+
+.text-muted{
+    color:  red !important;
+}
+
+.btn:hover .btn:active .btn:focus{
+    box-shadow: none !important;
+    border-color: transparent !important;
+}
