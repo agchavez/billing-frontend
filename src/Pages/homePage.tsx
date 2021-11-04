@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { 
     InputGroup, FormControl, Button,Table
  } from 'react-bootstrap';
+import { PayInvoice } from '../components/payInvoice';
 
  interface clientData {
      name:string,
@@ -15,6 +16,10 @@ export const HomePage = () => {
         errorCamp:false,
         msg:""
     })
+    const [ModalShow, setModalShow] = useState(false);
+    const handlePay= ()=>{
+            setModalShow(true);
+    }
     const dataClient:clientData = {name:"Gabriel", rtn:12456389}
 
     const SearchClient =()=>{
@@ -225,7 +230,7 @@ export const HomePage = () => {
             </div>
 
                 <div className="home__data-container shadow-sm">
-                    <div className="home_data-info mt-3">
+                    <div className="home_data-info mt-1">
                         <p className="home__data-title">Sub Total</p>
                         <p className="home__data-value">L. 100.00</p>
                     </div>
@@ -242,9 +247,17 @@ export const HomePage = () => {
                         <p className="home__data-title">Total a pagar</p>
                         <p className="home__data-value">L. 105.00</p>
                     </div>
+                    <div className="home__data-btn">
+                    <Button variant="primary w-100" onClick={handlePay}>Pagar</Button>
+                    </div>
                 </div>
             
         </div>
+        {/* handlePay */}
+        <PayInvoice 
+                    show={ModalShow}
+                    onHide={() => setModalShow(false)}
+                    />
         </>
     )
 }
