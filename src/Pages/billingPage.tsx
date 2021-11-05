@@ -1,7 +1,7 @@
 import React from 'react'
 import { Table, Button } from 'react-bootstrap';
-
 export const BillingPage = () => {
+    
     return (
         <div className="row mt-5">
             <div className="base__title">

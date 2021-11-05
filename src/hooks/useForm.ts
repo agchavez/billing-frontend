@@ -3,7 +3,7 @@ import  { useState } from 'react'
 
 type useFormType = [
     values:any,
-    handleInputChange:Function,
+    handleInputChange:any,
     reset:Function
 ]
 export const useForm = (initialState= {}):useFormType => {

@@ -1,7 +1,27 @@
-import React from 'react'
+import { useDispatch } from 'react-redux'
 import {AppRouter } from '../Router/appRouter';
+import { bindActionCreators } from 'redux'
+import { actionCreators } from '../state';
+import { useForm } from '../hooks/useForm';
+import { useState } from 'react';
 
-export const loginPage = () => {
+export const LoginPage = () => {
+    const dispatch = useDispatch();
+    const [error, seterror] = useState(false)
+    const [formValues, handleInputChange, reset ] = useForm({code:""})
+    const { startLogin } = bindActionCreators(actionCreators, dispatch)
+
+    const {code} = formValues; 
+    const handleLogin = ()=>{
+        console.log(`${code}`.length);
+        if (`${code}`.length !== 8) {
+            seterror(true)
+            return
+        }
+        seterror(false)
+        startLogin(code)
+        
+    }
     return (
         
       <>
@@ -15,10 +35,14 @@ export const loginPage = () => {
                             <input 
                                 className="form-control" 
                                 placeholder="Codigo"
+                                name = "code"
+                                value = {code}
+                                onChange={handleInputChange}
                                 type="text" />
+                                {error?<p className="text-muted">Campo requerido</p>:''}
                         </div>
                         <div className="auth__btn-container">
-                            <button className="btn auth__btn">
+                            <button className="btn auth__btn" onClick={handleLogin}>
                                 Ingresar
                             </button>
                         </div>
