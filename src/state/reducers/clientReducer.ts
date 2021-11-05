@@ -5,7 +5,9 @@ import { ClientInterface } from '../../interfaces/response';
 export interface clientsInterface {
     active?: ClientInterface,
     clients: ClientInterface[],
-    loading?:boolean
+    loading?:boolean,
+    nextPage?:string,
+    previusPage?:string
 
 }
 const initialState:clientsInterface = {
@@ -27,8 +29,8 @@ export const clientReducer = (state:clientsInterface = initialState, action:Clie
             return {
                 ...state,
                 clients: [
-                    ...state.clients,
-                    action.payload
+                    action.payload,
+                    ...state.clients
                 ]
             }
         case ActionTypes.CLIENTREMOVE:

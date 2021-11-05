@@ -10,11 +10,16 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { billingRoute } from './billingRoute';
 import {  RootState } from '../state/reducers';
+import { startLoadingInvoice } from '../state/action-creators/invoiceActionCreators';
+import { startLoadingClients } from '../state/action-creators/clientActionCreators';
+import { startLoadingProducts } from '../state/action-creators/productActionCreators';
 
 export const AppRouter = ():JSX.Element => {
+    
     //TODO: Validar rutas tanto privadas como publicas
-        //Caragr el usuario al inicar la app en el caso que este registrado 
-        const dispatch = useDispatch();
+    //Caragr el usuario al inicar la app en el caso que este registrado 
+    const dispatch = useDispatch();
+    
 
         //Para cargar 
         const [check, setcheck] = useState(true);
@@ -24,7 +29,9 @@ export const AppRouter = ():JSX.Element => {
     useEffect(()=>{
         const user = localStorage.getItem('token')
             if (user) {
-                
+                dispatch(startLoadingInvoice())
+                dispatch(startLoadingClients())
+                dispatch(startLoadingProducts())
                 setisAuth(true)
             }else{
                 setisAuth(false)

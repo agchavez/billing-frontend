@@ -1,8 +1,10 @@
 import React from 'react'
 import { Table, Button } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
+import { startLoadingInvoice } from '../state/action-creators/invoiceActionCreators';
+import { InvoiceComponent } from '../components/invoiceComponent';
 export const BillingPage = () => {
-    const dispatch = useDispatch()
+    
     
     return (
         <div className="row mt-5">
@@ -22,26 +24,7 @@ export const BillingPage = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                        <td>1</td>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                        <td>12456</td>
-                        <td className="billin__container-btn"><Button className="base_btn-table" variant="secondary" size="sm">
-                            Ver mas
-                            </Button></td>
-                        </tr>
-                        <tr>
-                        <td>2</td>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                        <td>12456</td>
-                        <td className="billin__container-btn"><Button className="base_btn-table" variant="secondary" size="sm">
-                            Ver mas
-                            </Button></td>
-                        </tr>
+                        <InvoiceComponent/>
                         
                     </tbody>
                     </Table>

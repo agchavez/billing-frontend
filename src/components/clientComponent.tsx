@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../state/reducers/index';
 
 export const ClientComponent:React.FC = () => {
+    
     const handleDeleteClient = (id:number)=>{
 
     }

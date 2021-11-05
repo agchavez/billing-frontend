@@ -18,4 +18,6 @@ export enum ActionTypes {
     INVOICEEDIT = "[invoice] Edit",
     INVOICEREMOVE = "[invoice] Remove",
     INVOICEACTIVE = "[invoice] Active",
+    INVOICELOADING = "[invoice] Loading",
+    INVOICECOMPLETE = "[invoice] Complete",
 }

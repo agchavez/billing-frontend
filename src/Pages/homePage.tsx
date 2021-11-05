@@ -10,7 +10,7 @@ import { PayInvoice } from '../components/payInvoice';
  }
 
 export const HomePage = () => {
-    
+   
     const [clientError, setclientError] = useState({
         error:false,
         errorCamp:false,

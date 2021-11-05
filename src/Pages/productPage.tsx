@@ -12,7 +12,7 @@ export const ProductPage = () => {
     }
 
     const dispatch = useDispatch()
-    dispatch(startLoadingProducts())
+    
     return (
         <div className="row mt-5">
             <div className="col-9 base__title">

@@ -5,22 +5,27 @@ import { actionCreators } from '../state';
 import { useForm } from '../hooks/useForm';
 import { useState } from 'react';
 
+import { useHistory } from "react-router-dom";
+
 export const LoginPage = () => {
+    const history = useHistory();
     const dispatch = useDispatch();
     const [error, seterror] = useState(false)
     const [formValues, handleInputChange, reset ] = useForm({code:""})
     const { startLogin } = bindActionCreators(actionCreators, dispatch)
 
     const {code} = formValues; 
-    const handleLogin = ()=>{
+    const handleLogin = async()=>{
         console.log(`${code}`.length);
         if (`${code}`.length !== 8) {
             seterror(true)
             return
         }
         seterror(false)
-        startLogin(code)
         
+        if (await startLogin(code)) {
+            history.push("/home");
+        }
     }
     return (
         

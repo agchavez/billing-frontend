@@ -11,16 +11,13 @@ const tokenx = localStorage.getItem('token');
 export const startLoadingProducts = ()=>{
     return  (dispatch: Dispatch<ClientAction>) => {
         try {
-            
-            
-            http.get<ListProductResponse>('/clients/', {headers: {'token': `${tokenx}`}}).then(resp => {
+            http.get<ListProductResponse>('/products/', {headers: {'token': `${tokenx}`}}).then(resp => {
                 if (resp.status === 200) {
-                    console.log(resp.data);
                     
-                    // dispatch({
-                    //     type: ActionTypes.PRODUCTLIST,
-                    //     payload: resp.data
-                    // })
+                    dispatch({
+                        type: ActionTypes.PRODUCTLIST,
+                        payload: resp.data
+                    })
                     
                 }
             })
