@@ -5,5 +5,9 @@ interface LoginAction{
     type:ActionTypes
     payload: authInterface
 }
+interface LogOutAction{
+    type:ActionTypes
+    payload: authInterface
+}
 
-export type AuthAction = LoginAction;
+export type AuthAction = LoginAction | LogOutAction;

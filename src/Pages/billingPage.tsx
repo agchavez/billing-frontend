@@ -1,6 +1,8 @@
 import React from 'react'
 import { Table, Button } from 'react-bootstrap';
+import { useDispatch } from 'react-redux';
 export const BillingPage = () => {
+    const dispatch = useDispatch()
     
     return (
         <div className="row mt-5">

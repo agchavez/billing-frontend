@@ -1,4 +1,4 @@
-import React from 'react'
+import React ,{ useEffect, useState }from 'react'
 import { LoginPage } from '../Pages/loginPage';
 import { 
     BrowserRouter as Router,
@@ -6,31 +6,57 @@ import {
     Route,
     Redirect
  } from "react-router-dom";
+
+import { useDispatch, useSelector } from 'react-redux';
 import { billingRoute } from './billingRoute';
+import {  RootState } from '../state/reducers';
 
 export const AppRouter = ():JSX.Element => {
     //TODO: Validar rutas tanto privadas como publicas
-     
-    // return(<>
-    //         <div className="base__img">
-    //             <div className="base__img-gif">
+        //Caragr el usuario al inicar la app en el caso que este registrado 
+        const dispatch = useDispatch();
 
-    //                 <img src='https://lh3.googleusercontent.com/proxy/F8U6FqIHTLbm2b2sF9k7Vay_ZWJf_fC4oY7PnNYJWrUmgPdX9mQPZ8vkyq8N-bIvUBfgXhNR9i7-_5ZqaQsjnJ8CMw-Mv1_78OA' width="150"/>
-    //             </div>
-    //         </div>
-    //         </>)
+        //Para cargar 
+        const [check, setcheck] = useState(true);
+        const idUser = useSelector((state: RootState) => state.auth.id)
+        //Para proteccion de rutas
+        const [isAuth, setisAuth] = useState(false);
+    useEffect(()=>{
+        const user = localStorage.getItem('token')
+            if (user) {
+                
+                setisAuth(true)
+            }else{
+                setisAuth(false)
+            }
+            setcheck(false)
+    }, [dispatch, setcheck, setisAuth, idUser])
+    if (check) {
+    return(<>
+            <div className="base__img">
+                <div className="base__img-gif">
+
+                    <img src='https://www.emape.gob.pe/assets/image/loading.gif' width="150"/>
+                </div>
+            </div>
+            </>)
+        
+    }
+    console.log(isAuth);
+    
     return (
         <>
             <Router>
                 <Switch>
-                    <Route 
-                        exact path ="/auth" 
-                        component = {LoginPage} 
-                    />
-                    <Route 
+                   
+                    {isAuth?<Route 
                         path ="/billing" 
                         component = {billingRoute} 
-                    />
+                    />: <Route 
+                    exact path ="/auth" 
+                    component = {LoginPage} 
+                    />}
+                    <Redirect to={isAuth?"/billing":"/auth"}/>
                      
 
                 </Switch>

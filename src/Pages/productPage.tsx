@@ -1,12 +1,18 @@
 import React, { useState } from 'react'
 import { Table, Button } from 'react-bootstrap';
 import { AddNewProduct } from '../components/newProduct';
+import { ProductComponent } from '../components/productComponent';
+import { startLoadingProducts } from '../state/action-creators/productActionCreators';
+import { useDispatch } from 'react-redux';
 
 export const ProductPage = () => {
     const [ModalShow, setModalShow] = useState(false);
     const handleAddClient = ()=>{
             setModalShow(true);
     }
+
+    const dispatch = useDispatch()
+    dispatch(startLoadingProducts())
     return (
         <div className="row mt-5">
             <div className="col-9 base__title">
@@ -28,25 +34,7 @@ export const ProductPage = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                        <td>1</td>
-                        <td>12345</td>
-                        <td>Gabriel</td>
-                        <td>L. 123.00 </td>
-                        <td>456</td>
-                        <td className="client__container-btn"><Button className="base_btn-table" variant="secondary" size="sm">
-                            Editar
-                            </Button><Button className="base_btn-table" variant="outline-danger mt-1" size="sm">Eliminar</Button></td>
-                        </tr>
-                        <tr>
-                        <td>2</td>
-                        <td>12345</td>
-                        <td>Gabriel</td>
-                        <td>L. 123.00 </td>
-                        <td>456</td>
-                        <td className="client__container-btn"><Button className="base_btn-table" variant="secondary" size="sm">Editar</Button><Button className="base_btn-table" variant="outline-danger mt-1" size="sm">Eliminar</Button></td>
-                        </tr>
-                        
+                       <ProductComponent/>
                     </tbody>
                     </Table>
             </div>

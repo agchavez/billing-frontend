@@ -13,14 +13,14 @@ export const authReducer = (state:authInterface = initialState, action:AuthActio
     switch (action.type) {
         
         case ActionTypes.AUTHLOGIN:
-            console.log("here");
             return {
                 ...state,
                 ...action.payload,
                 checking:false
 
             }
-    
+        case ActionTypes.AUTHLOGOUT:
+            return {}
         default:
             return state;
     }
