@@ -65,3 +65,16 @@ export const startNewProduct = (name:string, price:number, amount:number, code:s
          }
     }
 }
+
+export const getProductByCode =async(code:string)=>{
+    try {
+        const product = await http.get<ProductInterface>(`/products/${code}/`, {headers: {'token': `${tokenx}`}});
+        if(product.status ===200){
+            return product.data
+        }else{
+            return null
+        }
+    } catch (error) {
+        return null
+    }
+} 

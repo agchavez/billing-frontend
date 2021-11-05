@@ -36,9 +36,9 @@ export interface ProductInterface {
     price:       number;
     amount:      number;
     code:        string;
-    description: null;
+    description?: null;
     status:      boolean;
-    created:     Date;
+    created:     Date | null;
 }
 
 //Invoice
@@ -68,5 +68,14 @@ export interface InvoiceDetail {
     invoice:    number;
     product:    number;
     amount:     number;
+}
+
+export interface InvoiceDetailBilling {
+    total_line: number;
+    product:    number;
+    amount:     number;
+    price:      number;
+    name:       string;
+    code:        string;
 }
 

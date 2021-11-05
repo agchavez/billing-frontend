@@ -29,6 +29,20 @@ export const startLoadingClients = ()=>{
     }
 }
 
+export const getClientById = async(rtn:number)=>{
+    try {
+        const client = await http.get<ClientInterface>(`/clients/${rtn}/`, {headers: {'token': `${tokenx}`}});
+        if(client.status ===200){
+            return client.data
+        }else{
+            return null
+        }
+    } catch (error) {
+        return null
+    }
+    
+}
+
 export const setClientById = async(id:any)=>{
     
     const data:ClientInterface = {
