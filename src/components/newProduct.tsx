@@ -3,10 +3,9 @@ import React, { useState } from 'react'
 import { Modal, Button, Form } from 'react-bootstrap';
 import { BasicInput } from './basicInput';
 import { useForm } from '../hooks/useForm';
-
-type initialState = {
-    name:string
-}
+import { Dispatch } from 'redux';
+import { useDispatch } from 'react-redux';
+import { startNewProduct } from '../state/action-creators/productActionCreators';
 
 export const AddNewProduct = (props:any) => {
     const [nameError, setnameError] = useState(false);
@@ -21,7 +20,7 @@ export const AddNewProduct = (props:any) => {
     })
 
     const {name, price, amount, code} = formValues;
-
+    const dispatch = useDispatch()
     const handleAddProduct = ()=> {
         // reset()
         
@@ -29,6 +28,7 @@ export const AddNewProduct = (props:any) => {
         if (!validateCamp()) {
             return
         }
+        dispatch(startNewProduct(name, price, amount, code))
         reset()
     }
 
@@ -58,8 +58,10 @@ export const AddNewProduct = (props:any) => {
         ) {
             return false
             
+        }else{
+
+          return true
         }
-        return true
     }
     return (
       <Modal

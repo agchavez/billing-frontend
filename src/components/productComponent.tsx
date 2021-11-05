@@ -15,10 +15,10 @@ export const ProductComponent:React.FC = () => {
     
     return (
         <> { products.map((product,i)=>(<tr key={i}>
-                                    <td>{i}</td>
+                                    <td>{i + 1}</td>
                                     <td>{product.code}</td>
                                     <td>{product.name}</td>
-                                    <td>{product.price}</td>
+                                    <td>L. {product.price}.00</td>
                                     <td>{product.amount}</td>
                                     <td className="client__container-btn" onClick={()=> handleEditPoduct(product.id)}><Button className="base_btn-table" variant="secondary" size="sm"  >
                                         Editar

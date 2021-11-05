@@ -3,7 +3,7 @@
 
 
 import { ActionTypes } from '../types/types';
-import { ListClientResponse } from '../../interfaces/response';
+import { ListClientResponse, ProductInterface } from '../../interfaces/response';
 
 
 
@@ -15,7 +15,9 @@ interface ListProductAction{
     type:ActionTypes
     payload: ListClientResponse
 }
+interface AddProductAction{
+    type:ActionTypes,
+    payload:ProductInterface
+}
 
-
-
-export type ProductAction = DeleteProductAction | ListProductAction;
+export type ProductAction = DeleteProductAction | ListProductAction | AddProductAction;

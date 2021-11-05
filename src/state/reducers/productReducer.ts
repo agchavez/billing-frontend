@@ -28,6 +28,14 @@ export const productReducer = (state:productsInterface = initialState, action:Pr
                 loading:false
 
             }
+        case ActionTypes.PRODUCTADD:
+            return{
+                ...state,
+                products:[
+                    action.payload,
+                    ...state.products
+                ]
+            }
         default:
             return state;
     }
