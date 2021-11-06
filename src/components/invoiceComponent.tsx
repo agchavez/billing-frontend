@@ -22,7 +22,7 @@ export const InvoiceComponent:React.FC = () => {
         <> { loading? "" : invoices.map((invoice,i)=>(<tr key={i}>
                                     <td>{i}</td>
                                     <td>{moment(invoice.created).lang("es").format( 'ddd DD-MMM-YYYY, hh:mm A')}</td>
-                                    <td>{invoice.id}</td>
+                                    <td>{invoice.client}</td>
                                     <td>L. {invoice.total}.00</td>
                                     <td>{invoice.id}</td>
                                     <td className="client__container-btn" onClick={()=> handleEditInvoice()}><Button className="base_btn-table" variant="secondary" size="sm"  >
