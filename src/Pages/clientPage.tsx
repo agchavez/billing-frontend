@@ -13,7 +13,7 @@ export const ClientPage = () => {
             setModalShow(true);
     }
     const dispatch = useDispatch()
-    
+    dispatch(startLoadingClients())
 
    
     

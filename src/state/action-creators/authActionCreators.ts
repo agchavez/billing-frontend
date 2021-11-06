@@ -13,7 +13,6 @@ export const startLogin = (code:number)=>{
         try {
             
              const req = await http.post<LoginResponse>('/seller/login/', {"code":code})  
-                console.log("Hereee");
                 
              if(req.status === 201){
                 user = {
