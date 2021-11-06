@@ -43,19 +43,32 @@ export const getClientById = async(rtn:number)=>{
     
 }
 
+export const startActiveClient = (client:ClientInterface)=>{
+    return  (dispatch: Dispatch<ClientAction>) => {
+            dispatch({
+                type: ActionTypes.CLIENTACTIVE,
+                payload:client
+            })
+    }
+}
+
+
+
 export const setClientById = async(id:any)=>{
-    
     const data:ClientInterface = {
         name: "",
         id:0,
         rtn: "",
         created: null,
     }
+    
     try {
-        if (id=== null) {
+        if (id === null) {
             return data
         }
+
         const client = await http.get<ClientInterface>(`/clients/${id}/`, {headers: {'token': `${tokenx}`}})
+        
         if(client.status ===200){
             return client.data
         }else{

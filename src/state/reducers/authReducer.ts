@@ -13,6 +13,16 @@ export const authReducer = (state:authInterface = initialState, action:AuthActio
     switch (action.type) {
         
         case ActionTypes.AUTHLOGIN:
+            
+            
+            return {
+                ...state,
+                ...action.payload,
+                checking:false
+
+            }
+        case ActionTypes.AUTHVALIDATE:
+            console.log("here");
             return {
                 ...state,
                 ...action.payload,

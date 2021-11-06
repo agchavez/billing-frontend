@@ -2,16 +2,17 @@ import React, { useState } from 'react'
 import { Table, Button } from 'react-bootstrap';
 import { AddNewProduct } from '../components/newProduct';
 import { ProductComponent } from '../components/productComponent';
-import { startLoadingProducts } from '../state/action-creators/productActionCreators';
+import { startLoadingProducts, removeActiveProduct } from '../state/action-creators/productActionCreators';
 import { useDispatch } from 'react-redux';
 
 export const ProductPage = () => {
     const [ModalShow, setModalShow] = useState(false);
+    const dispatch = useDispatch()
     const handleAddClient = ()=>{
-            setModalShow(true);
+        dispatch(removeActiveProduct())
+        setModalShow(true);
     }
 
-    const dispatch = useDispatch()
     
     return (
         <div className="row mt-5">
@@ -27,14 +28,16 @@ export const ProductPage = () => {
                     <thead>
                         <tr>
                         <th>#</th>
-                        <th>id</th>
+                        <th>Codigo</th>
                         <th>Nombre</th>
                         <th>Precio</th>
                         <th>Cantidad</th>
                         </tr>
                     </thead>
                     <tbody>
-                       <ProductComponent/>
+                       <ProductComponent 
+                            setModal = {setModalShow}
+                       />
                     </tbody>
                     </Table>
             </div>

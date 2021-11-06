@@ -1,13 +1,15 @@
 import React from 'react'
 import { InputGroup, FormControl, Button } from 'react-bootstrap';
 import { useState } from 'react';
-import { getClientById } from '../state/action-creators/clientActionCreators';
+import { getClientById, startActiveClient } from '../state/action-creators/clientActionCreators';
 import { getProductByCode } from '../state/action-creators/productActionCreators';
 import { InvoiceDetailBilling } from '../interfaces/response';
 import { stratAddNewInvoiceDetail } from '../state/action-creators/invoiceActionCreators';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../state/reducers/index';
 import { PayInvoice } from './payInvoice';
+import { useForm } from '../hooks/useForm';
+import { startActiveDiscount } from '../state/action-creators/discountActionCreators';
 
 
 export const ClientBillingComponent = ({dataClient,setClientData, formValues, handleInputChange }:any) => {
@@ -18,11 +20,12 @@ export const ClientBillingComponent = ({dataClient,setClientData, formValues, ha
         client:false,
         msg:""
     })
-
+    const dispatch = useDispatch()
+    const state = useSelector((state:RootState) => state.client.active)
     const { rtn} = formValues;
     const SearchClient = async()=>{
         
-        if(`${rtn}`.length < 11){
+        if(`${rtn}`.length < 5){
             setclientError({
                 ...clientError,
                 error:true,
@@ -40,7 +43,7 @@ export const ClientBillingComponent = ({dataClient,setClientData, formValues, ha
         const client = await getClientById(rtn );
         if(client !== null){
             setClientData(client);
-            
+            dispatch(startActiveClient(client))
             setclientError({
                 ...clientError,
                 client:true,
@@ -91,10 +94,13 @@ export const ClientBillingComponent = ({dataClient,setClientData, formValues, ha
                     {
                         clientError.error
                             ?<p className="text-muted">{clientError.msg} {!clientError.errorCamp?<a href="#"> Precione aqui para ingresar nuevo cliente</a> :""}</p>
-                            :clientError.client?<>
+                            :""
+                    }
+                    {
+                            <>
                                 <p><b>Nombre: </b></p>
-                                <p className="ms-2">  {dataClient.name}</p>
-                            </>:""
+                                <p className="ms-2">  {state === null? "":state?.name}</p>
+                            </>
                     }
             </div>
         </div>
@@ -104,6 +110,7 @@ export const ClientBillingComponent = ({dataClient,setClientData, formValues, ha
 
 
 export const ProductBillingComponent = ({ formValues, handleInputChange, dataProduc, setProduct, setlistProduct, stateListProduct}:any)=>{
+    const discount = useSelector((state:RootState) => state.discount.amount)
     const dispatch = useDispatch()
     const {code, amount} = formValues;
     const [loadProduct, setloadProduct] = useState(false)
@@ -261,8 +268,64 @@ export const ProductBillingComponent = ({ formValues, handleInputChange, dataPro
     )
 }
 
+export const DiscountComponent = ({formValues, handleInputChange}:any)=>{
+    
+    const {discount} = formValues;
+    const dispatch = useDispatch()
+    const [discountError, setDiscountError] = useState(false)
+    const handleAddDiscount = ()=>{
+        if (`${discount}`.length !== 6) {
+            setDiscountError(true)
+            return
+        }else{
+            setDiscountError(false)
+        }
+        dispatch(startActiveDiscount(discount))
+        
+
+    }
+    return (
+        <div className="home__contain mt-3 col-12">
+                    <div className="home__title">
+                        <p>Descuento</p>
+                    </div>
+                <div className="d-flex">
+                    <div className="home__suptitle">
+                        <p>Codigo</p> 
+                    </div>
+                    <div className="home__input-discount home__input-group">
+                    <InputGroup className="mb-3 home__form-group">
+                        <FormControl
+                            name= "discount"
+                            value ={discount}
+                            onChange = {handleInputChange}
+                            placeholder="Codigo de descuento"
+                            type= "number"
+                            aria-label="Recipient's username"
+                            aria-describedby="basic-addon2"
+                        />
+                    </InputGroup>
+                    </div>
+                    <div className="home__btn-discount">
+                        <Button variant="primary home__btn" onClick={handleAddDiscount}>Agregar</Button>
+                    </div>
+                </div>
+                <div className="home__information">
+                        
+                        
+                        {
+                            discountError
+                                ?<p className="text-muted">Campo requerido</p>
+                                :""
+                        }
+                </div>
+            </div>
+    )
+} 
+
 
 export const AdtionalInformationBilling = ()=>{
+    const amount = useSelector((state:RootState) => state.discount.amount)
     const [ModalShow, setModalShow] = useState(false);
     const handlePay= ()=>{
         setModalShow(true);
@@ -273,20 +336,20 @@ export const AdtionalInformationBilling = ()=>{
          <div className="home__data-container shadow-sm">
                     <div className="home_data-info mt-1">
                         <p className="home__data-title">Sub Total</p>
-                        <p className="home__data-value">L. {state.subTotal}.00</p>
+                        <p className="home__data-value">L. {state.subTotal}</p>
                     </div>
                     <div className="home_data-info">
-                        <p className="home__data-title">Descuento</p>
-                        <p className="home__data-value">L. 0.00</p>
+                        <p className="home__data-title">Descuento {amount}%</p>
+                        <p className="home__data-value">L. {(state.total?state.total:0) * (amount?amount/100:0)} </p>
                     </div>
                     <div className="home_data-info">
                         <p className="home__data-title">ISV 15%</p>
-                        <p className="home__data-value">L. {state.isv}.00</p>
+                        <p className="home__data-value">L. {state.isv}</p>
                     </div>
                     <hr />
                     <div className="home_data-info">
                         <p className="home__data-title">Total a pagar</p>
-                        <p className="home__data-value">L. {state.total}.00</p>
+                        <p className="home__data-value">L. {(state.total?state.total:0) - (state.total?state.total:0) * (amount?amount/100:0)}</p>
                     </div>
                     <div className="home__data-btn">
                     <Button variant="primary w-100" onClick={handlePay}>Pagar</Button>

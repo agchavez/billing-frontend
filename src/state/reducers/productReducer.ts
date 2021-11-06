@@ -36,6 +36,16 @@ export const productReducer = (state:productsInterface = initialState, action:Pr
                     ...state.products
                 ]
             }
+        case ActionTypes.PRODUCTACTIVE:
+            return{
+                ...state,
+                active: action.payload.product
+            }
+        case ActionTypes.PRODUCTINACTIVE:
+            return {
+                ...state,
+                active:undefined
+            }
         default:
             return state;
     }

@@ -45,6 +45,7 @@ export const clientReducer = (state:clientsInterface = initialState, action:Clie
                 ...state,
                 active: action.payload
             }
+        
         default:
             return state;
     }

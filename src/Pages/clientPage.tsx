@@ -40,7 +40,7 @@ export const ClientPage = () => {
                     <tbody>
 
                         
-                            <ClientComponent/>)
+                            <ClientComponent />)
                         
                         
                         

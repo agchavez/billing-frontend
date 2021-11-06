@@ -62,6 +62,16 @@ export interface InvoiceInterface {
     created:        Date;
 }
 
+export interface DiscountResponse {
+    id:       number;
+    describe: string;
+    discount: number;
+    code:     string;
+    duration: Date;
+    status:   boolean;
+}
+
+
 export interface InvoiceDetail {
     id:         number;
     total_line: number;

@@ -1,7 +1,7 @@
 import { ActionTypes } from '../types/types';
 import { AuthAction } from '../actions/authAction';
 import { ProductAction } from '../actions/productAction';
-import { InvoiceInterface, InvoiceDetailBilling } from '../../interfaces/response';
+import { InvoiceInterface, InvoiceDetailBilling, ClientInterface } from '../../interfaces/response';
 export interface invoicesInterface {
     active: invoiceActive,
     invoices: InvoiceInterface[],
@@ -13,6 +13,7 @@ export interface invoicesInterface {
 export interface invoiceActive{
     subTotal?:number;
     isv?: number,
+    client?: ClientInterface
     total?: number,
     listInvoiceDetail: InvoiceDetailBilling[]
 } 
@@ -65,15 +66,17 @@ export const invoiceReducer = (state:invoicesInterface = initialState, action:Pr
                     subTotal: state.active?.subTotal! - action.payload.subTotal,
                     isv: state.active?.isv! - action.payload.isv,
                     total: state.active?.total! - action.payload.total,
-                    listInvoiceDetail: [
-                        ...state.active?.listInvoiceDetail
-                    ]
+                    listInvoiceDetail: state.active.listInvoiceDetail.filter(
+                        e => ( e.code !== action.payload.listInvoiceDetail?.code)
+                    )
+                       // ...state.active?.listInvoiceDetail
+                    
                 }
             }
         case ActionTypes.INVOICECOMPLETE:
             return {
                 ...state,
-                loading: false
+                active: initialState.active
             }
             
         default:

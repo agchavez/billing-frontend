@@ -6,13 +6,15 @@ import { PayInvoice } from '../components/payInvoice';
 import { useForm } from '../hooks/useForm';
 import { getClientById } from '../state/action-creators/clientActionCreators';
 import { ClientInterface, ProductInterface, InvoiceDetail, InvoiceDetailBilling } from '../interfaces/response';
-import { ClientBillingComponent, ProductBillingComponent, AdtionalInformationBilling } from '../components/billingComponets';
+import { ClientBillingComponent, ProductBillingComponent, AdtionalInformationBilling, DiscountComponent } from '../components/billingComponets';
+import { RootState } from '../state/reducers/index';
+import { useSelector, useDispatch } from 'react-redux';
+import { startRemoveInvoiceDetail } from '../state/action-creators/invoiceActionCreators';
 
 export const HomePage = () => {
-    
 
-    
-
+    const state = useSelector((state:RootState) => state.invoice.active.listInvoiceDetail);
+    const dispatch = useDispatch()
     const [formValues, handleInputChange, reset ] = useForm({
         rtn:0,
         price:null,
@@ -26,9 +28,9 @@ export const HomePage = () => {
     let[ dataClient, setClientData] = useState<ClientInterface>({name:"", id:0, rtn:"",created:null})
     let[ dataProduc, setProduct] = useState<ProductInterface>({name:"", id:0,price:0,amount:0,code:'',status:false,created:null})
 
-    const handleRemoveItem = (id:any)=>{
-        listProduct.splice(id,1)
-        setlistProduct([...listProduct])
+    const handleRemoveItem = (elemnt:any)=>{
+        
+        dispatch(startRemoveInvoiceDetail(elemnt))
     }
 
 
@@ -55,42 +57,12 @@ export const HomePage = () => {
                         stateListProduct  = {listProduct}
                             />
 
-            
+            <DiscountComponent
+                    formValues= {formValues} 
+                    handleInputChange={handleInputChange}
+                    />
 
-            <div className="home__contain mt-3 col-12">
-                    <div className="home__title">
-                        <p>Descuento</p>
-                    </div>
-                <div className="d-flex">
-                    <div className="home__suptitle">
-                        <p>Codigo</p> 
-                    </div>
-                    <div className="home__input-discount home__input-group">
-                    <InputGroup className="mb-3 home__form-group">
-                        <FormControl
-                            placeholder="Codigo de descuento"
-                            type= "number"
-                            aria-label="Recipient's username"
-                            aria-describedby="basic-addon2"
-                        />
-                    </InputGroup>
-                    </div>
-                    <div className="home__btn-discount">
-                        <Button variant="primary home__btn">Agregar</Button>
-                    </div>
-                </div>
-                <div className="home__information">
-                        
-                        {
-                            // clientError.error
-                            //     ?<p className="text-muted">{clientError.msg} {!clientError.errorCamp?<a href="#"> Precione aqui para ingresar nuevo cliente</a> :""}</p>
-                            //     :<>
-                            //         <p><b>Nombre: </b></p>
-                            //         <p className="ms-2">  {dataClient.name}</p>
-                            //     </>
-                        }
-                </div>
-            </div>
+            
 
             <div className="home__contain mt-3 col-12">
                 <div className="home__title">
@@ -110,14 +82,14 @@ export const HomePage = () => {
                     </thead>
                     <tbody>
                         
-                        {listProduct.map((elemnt, i)=>(<tr key={i}>
+                        {state.map((elemnt, i)=>(<tr key={i}>
                         <td>{i + 1}</td>
                         <td>{elemnt.code}</td>
                         <td>{elemnt.name}</td>
                         <td>L. {elemnt.price}.00</td>
                         <td>{elemnt.amount}</td>
                         <td>L. {elemnt.total_line}.00</td>
-                        <td className="billin__container-btn"><Button onClick={()=> handleRemoveItem(i)} className="base_btn-table" variant="secondary" size="sm">
+                        <td className="billin__container-btn"><Button onClick={()=> handleRemoveItem(elemnt)} className="base_btn-table" variant="secondary" size="sm">
                             Eliminar
                             </Button></td>
                         </tr>))}

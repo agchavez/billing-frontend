@@ -1,15 +1,19 @@
 import React from 'react'
-import { ClientInterface } from '../interfaces/response';
+import { ClientInterface, ProductInterface } from '../interfaces/response';
 import { Button } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../state/reducers/index';
+import { startActiveProduct } from '../state/action-creators/productActionCreators';
 
-export const ProductComponent:React.FC = () => {
-    const handleDeletePoduct = (id:number)=>{
-
+export const ProductComponent = (props:any) => {
+    const dispatch = useDispatch()
+    const handleDeletePoduct = (product: ProductInterface)=>{
+            dispatch(startActiveProduct(product))
+            
     }
-    const handleEditPoduct = (id:number)=>{
-
+    const handleEditPoduct = (product: ProductInterface)=>{
+            dispatch(startActiveProduct(product))
+            props.setModal(true)
     }
     const products = useSelector((state:RootState) => state.product.products)
     
@@ -20,9 +24,9 @@ export const ProductComponent:React.FC = () => {
                                     <td>{product.name}</td>
                                     <td>L. {product.price}.00</td>
                                     <td>{product.amount}</td>
-                                    <td className="client__container-btn" onClick={()=> handleEditPoduct(product.id)}><Button className="base_btn-table" variant="secondary" size="sm"  >
+                                    <td className="client__container-btn" onClick={()=> handleEditPoduct(product)}><Button className="base_btn-table" variant="secondary" size="sm"  >
                                         Editar
-                                        </Button><Button onClick={()=> handleDeletePoduct(product.id)} className="base_btn-table" variant="outline-danger mt-1" size="sm">Eliminar</Button></td>
+                                        </Button></td>
                                     </tr>))
                                } </>
     )

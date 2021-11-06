@@ -56,3 +56,23 @@ export const startLogOut = ()=>{
         })
     }
 }
+
+export const validateToken = (token:any)=>{
+    let user:authInterface;
+    return async (dispatch: Dispatch<AuthAction>) => {
+        const req = await http.get('/seller/login/', {headers: {"token": token}}) 
+        if (req.status === 200) {
+            user = {
+                id: req.data.id,
+                name: `${req.data.first_name} ${req.data.last_name}`,
+                checking: false
+            }
+            dispatch({
+            type: ActionTypes.AUTHVALIDATE,
+            payload: user
+        })
+            
+        }
+        
+    }
+} 

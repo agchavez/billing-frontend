@@ -78,3 +78,23 @@ export const getProductByCode =async(code:string)=>{
         return null
     }
 } 
+
+export const startActiveProduct = (product:ProductInterface)=>{
+    return  (dispatch: Dispatch<ProductAction>) => {
+        dispatch({
+            type:ActionTypes.PRODUCTACTIVE,
+            payload: {
+                product
+            }
+        })
+    }
+}
+
+export const removeActiveProduct = ()=>{
+    return  (dispatch: Dispatch<ClientAction>) => {
+            dispatch({
+                type: ActionTypes.PRODUCTINACTIVE,
+                payload:[]
+            })
+    }
+}

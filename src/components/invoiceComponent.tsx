@@ -1,30 +1,33 @@
 import React from 'react'
-import { ClientInterface } from '../interfaces/response';
+import moment from 'moment';
+import { ClientInterface, ProductInterface } from '../interfaces/response';
 import { Button } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../state/reducers/index';
+import { startActiveProduct } from '../state/action-creators/productActionCreators';
+import { productsInterface } from '../state/reducers/productReducer';
 
 export const InvoiceComponent:React.FC = () => {
-    const handleDeleteInvoice = (id:number)=>{
+    const dispatch = useDispatch()
+    const handleDeleteInvoice = ()=>{
 
     }
-    const handleEditInvoice = (id:number)=>{
+    const handleEditInvoice = ()=>{
 
     }
     const {invoices, loading} = useSelector((state:RootState) => state.invoice)
-    
-    
+    moment.locale('es');
     
     return (
         <> { loading? "" : invoices.map((invoice,i)=>(<tr key={i}>
                                     <td>{i}</td>
-                                    <td>{invoice.created}</td>
-                                    <td>{invoice.client_name?.name ===""? "--":invoice.client_name?.name}</td>
+                                    <td>{moment(invoice.created).lang("es").format( 'ddd DD-MMM-YYYY, hh:mm A')}</td>
+                                    <td>{invoice.id}</td>
                                     <td>L. {invoice.total}.00</td>
                                     <td>{invoice.id}</td>
-                                    <td className="client__container-btn" onClick={()=> handleEditInvoice(invoice.id)}><Button className="base_btn-table" variant="secondary" size="sm"  >
-                                        Editar
-                                        </Button><Button onClick={()=> handleDeleteInvoice(invoice.id)} className="base_btn-table" variant="outline-danger mt-1" size="sm">Eliminar</Button></td>
+                                    <td className="client__container-btn" onClick={()=> handleEditInvoice()}><Button className="base_btn-table" variant="secondary" size="sm"  >
+                                        Ver mas
+                                        </Button></td>
                                     </tr>))
                                } </>
     )

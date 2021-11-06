@@ -13,6 +13,7 @@ import {  RootState } from '../state/reducers';
 import { startLoadingInvoice } from '../state/action-creators/invoiceActionCreators';
 import { startLoadingClients } from '../state/action-creators/clientActionCreators';
 import { startLoadingProducts } from '../state/action-creators/productActionCreators';
+import { validateToken } from '../state/action-creators/authActionCreators';
 
 export const AppRouter = ():JSX.Element => {
     
@@ -28,6 +29,7 @@ export const AppRouter = ():JSX.Element => {
         const [isAuth, setisAuth] = useState(false);
     useEffect(()=>{
         const user = localStorage.getItem('token')
+        dispatch(validateToken(user))
             if (user) {
                 dispatch(startLoadingInvoice())
                 dispatch(startLoadingClients())

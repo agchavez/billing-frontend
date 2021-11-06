@@ -5,7 +5,8 @@ import { startLoadingInvoice } from '../state/action-creators/invoiceActionCreat
 import { InvoiceComponent } from '../components/invoiceComponent';
 export const BillingPage = () => {
     
-    
+    const dispatch = useDispatch()
+    dispatch(startLoadingInvoice())
     return (
         <div className="row mt-5">
             <div className="base__title">

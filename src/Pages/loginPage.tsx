@@ -1,5 +1,4 @@
 import { useDispatch } from 'react-redux'
-import {AppRouter } from '../Router/appRouter';
 import { bindActionCreators } from 'redux'
 import { actionCreators } from '../state';
 import { useForm } from '../hooks/useForm';
