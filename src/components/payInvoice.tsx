@@ -23,8 +23,9 @@ export const PayInvoice = (props:any) => {
                 "client": client?.id,
                 "seller": seller.id,
                 "isv": state.isv,
-                "discount":amount.id,
+                "discount":amount.id == 0? null:amount.id,
         }
+        console.log(dataInvoice);
         
         const newInvoice = await saveNewInvoice(dataInvoice);
         

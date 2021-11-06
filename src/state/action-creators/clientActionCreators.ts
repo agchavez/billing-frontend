@@ -12,7 +12,6 @@ export const startLoadingClients = ()=>{
     return  (dispatch: Dispatch<ClientAction>) => {
         try {
             
-            
             http.get<ListClientResponse>('/clients/', {headers: {'token': `${tokenx}`}}).then(resp => {
                 if (resp.status === 200) {
                     dispatch({
@@ -67,6 +66,7 @@ export const setClientById = async(id:any)=>{
             return data
         }
 
+        
         const client = await http.get<ClientInterface>(`/clients/${id}/`, {headers: {'token': `${tokenx}`}})
         
         if(client.status ===200){
