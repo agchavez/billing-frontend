@@ -3,25 +3,26 @@ import React, { useState } from 'react'
 import { Modal, Button, Form } from 'react-bootstrap';
 import { BasicInput } from './basicInput';
 import { useForm } from '../hooks/useForm';
-
-type initialState = {
-    name:string
-}
+import { Dispatch } from 'redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { startNewProduct } from '../state/action-creators/productActionCreators';
+import { RootState } from '../state/reducers/index';
 
 export const AddNewProduct = (props:any) => {
     const [nameError, setnameError] = useState(false);
     const [errorPrice, setErrorPrice] = useState(false);
     const [errorAmount, setErrorAmount] = useState(false);
     const [errorcode, setErrorcode] = useState(false);
+    const state = useSelector((state:RootState) => state.product.active)
     const [formValues, handleInputChange, reset ] = useForm({
         name:"",
-        price:0,
-        amount:0,
-        code:0            
+        price:"",
+        amount:"",
+        code:""          
     })
-
+    
     const {name, price, amount, code} = formValues;
-
+    const dispatch = useDispatch()
     const handleAddProduct = ()=> {
         // reset()
         
@@ -29,6 +30,7 @@ export const AddNewProduct = (props:any) => {
         if (!validateCamp()) {
             return
         }
+        dispatch(startNewProduct(name, price, amount, code))
         reset()
     }
 
@@ -58,8 +60,10 @@ export const AddNewProduct = (props:any) => {
         ) {
             return false
             
+        }else{
+
+          return true
         }
-        return true
     }
     return (
       <Modal
@@ -78,7 +82,7 @@ export const AddNewProduct = (props:any) => {
                     title = "Nombre" 
                     name="name" 
                     type = "text"
-                    placeholder="Manzana Roja" 
+                    placeholder={state?state?.name:"Manzana Roja"} 
                     msgError= {nameError? "Campo requerido":""} 
                     value = {name} 
                     onChange={handleInputChange} />
@@ -86,7 +90,7 @@ export const AddNewProduct = (props:any) => {
                     title = "Precio" 
                     name="price" 
                     type = "number"
-                    placeholder="50.00" 
+                    placeholder={state?state?.price.toString():"50.00"} 
                     msgError= {errorPrice? "Campo requerido":""} 
                     value = {price} 
                     onChange={handleInputChange} />
@@ -94,7 +98,7 @@ export const AddNewProduct = (props:any) => {
                     title = "Cantidad" 
                     name="amount" 
                     type = "number"
-                    placeholder="20" 
+                    placeholder={state?`${state?.amount}`:"20" }
                     msgError= {errorAmount? "Campo requerido":""} 
                     value = {amount} 
                     onChange={handleInputChange} />
@@ -102,7 +106,7 @@ export const AddNewProduct = (props:any) => {
                     title = "Codigo" 
                     name="code" 
                     type = "text"
-                    placeholder="123456" 
+                    placeholder={state?`${state?.code}`:"123456" }
                     msgError= {errorcode? "Campo requerido":""} 
                     value = {code} 
                     onChange={handleInputChange} />
@@ -110,7 +114,8 @@ export const AddNewProduct = (props:any) => {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="outline-dark" onClick={props.onHide}>Close</Button>
-          <Button variant="outline-primary" onClick={handleAddProduct}>Agregar</Button>
+          {state === null?<Button variant="outline-primary" onClick={handleAddProduct}>Agregar</Button>
+          :<Button variant="outline-primary" onClick={handleAddProduct}>Actualizar</Button>}
         </Modal.Footer>
       </Modal>
     );

@@ -16,7 +16,16 @@ body{
     font-family: 'Roboto', sans-serif;
     background-color: #fcfafa62;
 }
-
+.base__img{
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+}
+.base__img-gif{
+    width: 150px;
+    height: 150px;
+    margin: auto;
+}
 .base_btn-table{
     width: 97px;
     height: 26px;

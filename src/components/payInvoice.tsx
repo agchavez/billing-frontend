@@ -1,7 +1,39 @@
+import moment from 'moment';
+
 import React from 'react'
 import { Modal, Button, Form,Table } from 'react-bootstrap';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../state/reducers';
+import { saveNewInvoice, saveNewInvoiceDetail } from '../state/action-creators/invoiceActionCreators';
 
 export const PayInvoice = (props:any) => {
+    const dispatch = useDispatch()
+    const state = useSelector((state:RootState) => state.invoice.active);
+    const amount = useSelector((state:RootState) => state.discount);
+    const seller = useSelector((state:RootState) => state.auth);
+    const client = useSelector((state:RootState) => state.client.active);
+    moment().format();
+    
+    const handlePay = async()=> {
+        
+        const discountValue = amount.amount?amount.amount:0 * (state.total?state.total:0);
+        const total = (state.total?state.total:0) - discountValue;
+        const dataInvoice:any = {
+                "total": total,
+                "client": client?.id,
+                "seller": seller.id,
+                "isv": state.isv,
+                "discount":amount.id,
+        }
+        
+        const newInvoice = await saveNewInvoice(dataInvoice);
+        
+        if(newInvoice !== null){
+            dispatch(saveNewInvoiceDetail(state.listInvoiceDetail, newInvoice))
+        }
+        props.onHide()
+
+    }
     return (
         
             <Modal
@@ -11,7 +43,7 @@ export const PayInvoice = (props:any) => {
                 >
                 <Modal.Header closeButton>
                 <Modal.Title id="contained-modal-title">
-                    Factura 
+                    Resumen de factura 
                 </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
@@ -29,15 +61,15 @@ export const PayInvoice = (props:any) => {
                     
                     <div className="d-flex">
                         <p>Vendedor: </p>
-                        <p>Angel Chavez</p>
+                        <p>{seller?.name}</p>
                     </div>
                     <div className="d-flex">
                         <p>Fecha: </p>
-                        <p>12/11/2021</p>
+                        <p>{moment().format('MM-DD-YYYY')}</p>
                     </div>
                     <div className="d-flex">
                         <p>Hora: </p>
-                        <p>15:00:00</p>
+                        <p>{moment().format('HH:mm')}</p>
                     </div>
                     <div className="d-flex">
                         <p>Codigo: </p>
@@ -50,11 +82,11 @@ export const PayInvoice = (props:any) => {
                     <hr />
                     <div className="d-flex">
                         <p>Suscriptior: </p>
-                        <p>Angel Chavez</p>
+                        <p>{client?.name}</p>
                     </div>
                     <div className="d-flex">
                         <p>RTN Cliente: </p>
-                        <p>21454658459565</p>
+                        <p>{client?.rtn}</p>
                     </div>
 
                     <Table responsive="sm">
@@ -67,12 +99,18 @@ export const PayInvoice = (props:any) => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                        <td>Manzana Verde</td>
-                        <td>10</td>
-                        <td>L.</td>
-                        <td>50.00</td>
-                        </tr>
+                        {
+                            state.listInvoiceDetail.map((invoice, i) => (
+                                <>
+                                <tr key= {i}>
+                                    <td>{invoice.name}</td>
+                                    <td>{invoice.amount}</td>
+                                    <td>L.</td>
+                                    <td>{invoice.total_line}</td>
+                                </tr>
+                                </>
+                            ))
+                        }
                         
                     </tbody>
                     </Table>
@@ -83,26 +121,33 @@ export const PayInvoice = (props:any) => {
                         <td><b>Sub total</b></td>
                         <td></td>
                         <td>L.</td>
-                        <td>50.00</td>
+                        <td>{state.subTotal}</td>
                         </tr>
                         <tr>
                         <td><b>ISV 15%</b></td>
                         <td></td>
                         <td>L.</td>
-                        <td>7.5</td>
+                        <td>{state.isv}</td>
+                        </tr>
+                        <tr>
+                        <td><b>Descurnto {amount.amount}%</b></td>
+                        <td></td>
+                        <td>L.</td>
+                        <td>{(state.total?state.total:0) * (amount.amount?amount.amount/100:0)}</td>
                         </tr>
                         <tr>
                         <td><b>TOTAL FINAL</b></td>
                         <td></td>
                         <td>L.</td>
-                        <td>50.00</td>
+                        <td>{(state.total?state.total:0) - (state.total?state.total:0) * (amount.amount?amount.amount/100:0)}</td>
                         </tr>
                         
                     </tbody>
                     </Table>
                 </Modal.Body>
                 <Modal.Footer>
-                <Button variant="outline-dark" onClick={props.onHide}>Cerrar</Button>
+                <Button variant="outline-primary"  onClick={handlePay}>Pagar</Button>
+                <Button variant="outline-dark" onClick={props.onHide}>Cancelar</Button>
                 </Modal.Footer>
             </Modal> 
     )

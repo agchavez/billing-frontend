@@ -1,12 +1,23 @@
 import React, { useState } from 'react'
 import { Table, Button } from 'react-bootstrap';
 import { AddNewClient } from '../components/newClient';
+import { useDispatch, useSelector } from 'react-redux';
+import { startLoadingClients } from '../state/action-creators/clientActionCreators';
+import { RootState } from '../state/reducers';
+import { ClientComponent } from '../components/clientComponent';
 
 export const ClientPage = () => {
+    
     const [ModalShow, setModalShow] = useState(false);
     const handleAddClient = ()=>{
             setModalShow(true);
     }
+    const dispatch = useDispatch()
+    
+
+   
+    
+    
     return (
         <div className="row mt-5">
             <div className="col-9 base__title">
@@ -27,22 +38,11 @@ export const ClientPage = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                        <td>1</td>
-                        <td>12345</td>
-                        <td>Gabriel</td>
-                        <td>1234568</td>
-                        <td className="client__container-btn"><Button className="base_btn-table" variant="secondary" size="sm">
-                            Editar
-                            </Button><Button className="base_btn-table" variant="outline-danger mt-1" size="sm">Eliminar</Button></td>
-                        </tr>
-                        <tr>
-                        <td>2</td>
-                        <td>12345</td>
-                        <td>Gabriel</td>
-                        <td>1234568</td>
-                        <td className="client__container-btn"><Button className="base_btn-table" variant="secondary" size="sm">Editar</Button><Button className="base_btn-table" variant="outline-danger mt-1" size="sm">Eliminar</Button></td>
-                        </tr>
+
+                        
+                            <ClientComponent />)
+                        
+                        
                         
                     </tbody>
                     </Table>
